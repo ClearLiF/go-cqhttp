@@ -210,6 +210,14 @@ func (c *Caller) call(action string, p Getter) global.MSG {
 		p1 := p.Get("message")
 		p2 := p.Get("auto_escape").Bool()
 		return c.bot.CQSendGroupMessage(p0, p1, p2)
+	case "send_group_msg_and_del":
+		p0 := p.Get("group_id").Int()
+		p1 := p.Get("message")
+		p2 := p.Get("auto_escape").Bool()
+		message := c.bot.CQSendGroupMessage(p0, p1, p2)
+		message_id := message["message_id"].(int32)
+		//p4 := int32(p.Get("message_id").Int())
+		return c.bot.CQDeleteMessage(message_id)
 	case "send_group_sign":
 		p0 := p.Get("group_id").Int()
 		return c.bot.CQSendGroupSign(p0)
